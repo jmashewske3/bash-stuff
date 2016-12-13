@@ -1,3 +1,7 @@
+#Joshua Mashewske
+#CSC-272 Linux Dropbox
+#Professor Weissman
+
 #!/bin/bash
 
 function display-helper() {
@@ -108,7 +112,7 @@ function play-again() {
 function get-a-bet() {
     local maxbet bet
     maxbet=$1
-    echo -n "You have $maxbet dollars, BET: " >&2
+    echo -n "You have $ $maxbet, place your bets here: " >&2
     read bet
     bet=${bet//[^0-9]/}
     if [ -z "$bet" ]; then
@@ -145,7 +149,7 @@ function play-round() {
     done 
     pcount=$(count-value $player)
     if [ $pcount -gt 21 ]; then
-	echo "You bust!  You vose!"
+	echo "Sorry You Lose!"
 	((pmoney -= $pbet))
     else
 	dealer=$(play-dealer $dealer)
@@ -153,16 +157,16 @@ function play-round() {
 	echo Dealer: $(display-hand $dealer full)
 	echo You: $(display-hand $player full) 
 	if [ $dcount -gt 21 ]; then
-	    echo "Dealer bust!  You vin!"
+	    echo "Congrats! You Win!"
 	    ((pmoney += $pbet))
 	elif [ $pcount -gt $dcount ]; then
-	    echo "You vin!"
+	    echo "You Win!"
 	    ((pmoney += $pbet))
 	elif [ $dcount -gt $pcount ]; then
-	    echo "You vose!"
+	    echo "You Lose!"
 	    ((pmoney -= $pbet))
 	else 
-	    echo "You vie!"
+	    echo "You Tie!"
 	fi
     fi
     add-used $dealer
@@ -172,7 +176,7 @@ function play-round() {
 	    if [ $pmoney -gt 0 ]; then
 		play-round $pmoney
 	    else
-		echo "You have no moneyz!"
+		echo "Sorry pal you're broke!"
 	    fi;;
 	no) ;;
     esac
